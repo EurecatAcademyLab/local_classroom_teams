@@ -56,8 +56,6 @@ function print_body() {
         $output .= html_writer::start_tag('div', ['class' => 'd-flex justify-content-center flex-column mt-4 mx-5']);
         $output .= html_writer::tag('img', '', array(
             'alt' => get_string('pixtgcustom', 'local_classroom_teams'), 'src' => "pix/tgcustomfilter.png"));
-        $output .= html_writer::tag('img', '', array(
-            'alt' => get_string('pixtgcustomtable', 'local_classroom_teams'), 'src' => "pix/tgcustomtable.png"));
         $output .= html_writer::end_tag('div');
                 $output .= html_writer::end_tag('div');
 
@@ -66,8 +64,6 @@ function print_body() {
         $output .= html_writer::start_tag('div', ['class' => 'd-flex justify-content-center flex-column mt-4 mx-5']);
         $output .= html_writer::tag('img', '', array(
             'alt' => get_string('pixtgcustom', 'local_classroom_teams'), 'src' => "pix/tgtandem.png"));
-        $output .= html_writer::tag('img', '', array(
-            'alt' => get_string('pixtgcustomtable', 'local_classroom_teams'), 'src' => "pix/tgtandemtable.png"));
         $output .= html_writer::end_tag('div');
                 $output .= html_writer::end_tag('div');
 

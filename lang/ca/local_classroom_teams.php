@@ -26,7 +26,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$string['pluginname'] = 'Equips per clases';
+$string['pluginname'] = 'Equips per clases (Versió gratuïta - Beta)';
 
 // Main tab.
 $string['select_course'] = 'Seleccioni un curs:';
