@@ -1,42 +1,25 @@
-# Team_generator #
+# Forum Moderation #
 
-## Describe the plugin.
+# Describe the plugin.
 
-Classroom Teams greatly facilitates the creation of groups of students in classroom environments, despite it can be used in any other situation, both homogeneous and heterogeneous, and considering characteristics that each creator, usually a teacher or academic coordinator, can customize. It is useful to ensure that the groups are balanced, in accordance with the objective of the task and up to date. It also improves the relationship between the people in the "Team" and the collective in general, increasing confidence in the environment and promoting class cohesion.
+The Multilanguage Plugin is designed to assist forum moderators in identifying potentially inappropriate or harmful content and preventing its misuse by automating certain decisions.
 
-## Provide more detailed description here.
+The module offers highly accurate automated moderation of forums and can quarantine the most problematic messages until they are moderationed by a moderator. The plugin also provides a variety of rules and actions to simplify the moderation process.
 
-The Classroom Teams  tool could create and manage teaching groups, which can be used to facilitate group work, discussion and collaboration among students. Currently there are some group related tools, which allows you to make random groupings by dividing a class into groups or number of people per group. ​
 
-## Features #
-Eurecat Academy’s automatic group creation tool offers some unique features: ​
+# More details.
 
-Creation of teams by several features, including size of the teams, type of student, grades or course completion, etc. ​
+When a user posts a message in any forum, the plugin reads the content, saves the result, and performs one of the following actions based on the detected level:
 
-Creation of homogeneous teams (groups containing people with the same characteristics) or heterogeneous (groups with different characteristics).​
+If the detected level is 1 - "Warning," the content should be moderationed by a subjective authority. Therefore, it will show the local plugin for a moderation.
 
-Creation of new random groups considering past groupings ​
+If the detected level is 2 - "Danger," the content should not be on the platform, and it will be quarantined. This quarantine involves removing the message until a moderationer determines if a final removal is necessary, or if, for context, the detected message can be determined as an exception.
 
-Creation of groups considering incompatibilities among members​
+Messages determined to be "Danger" will be prevented from accessing the message and marked as unavailable. The authorized user must certify these messages and give approval for each one, with the possibility to accept or reject the module's suggestion. As the messages depend on their context, the moderationer has the possibility to view the message within the discussion to decide if it is appropriate.
 
-The tool offers the teacher the possibility to display the created group on a full screen to be used in classroom activities. The created groups could be saved ad Moodle group to be used for further collaboration of the teams.​
+The module offers important information to forum moderators, including the user who posted the message, the course in which it was posted, the reasons why the message has been quarantined, a link to the discussion for context, and a suggestion on how to proceed. For example, if the message is deemed "Danger" level, the suggestion might be to delete it, while if it is "Warning" level, the suggestion might be to moderation it.
 
-The tool allows the  grouping students together based on various factors, such as their learning abilities, interests, or specific learning goals, to facilitate effective teaching and learning strategies, promote collaboration among students, and cater to individual needs.
-
-Classroom groups can take different forms, depending on the educational objectives and the teaching approach employed by the instructor. Some common types of classroom groups include:​
-
-Ability-based groups: Students are grouped based on their academic abilities or skill levels. This allows teachers to differentiate instruction and provide appropriate materials and activities for students at different proficiency levels.​
-
-Heterogeneous groups: Students with diverse abilities, backgrounds, and learning styles are mixed together in groups. This approach encourages cooperation, peer learning, and social interaction among students with varied strengths and weaknesses.​
-
-Homogeneous groups: Students with similar abilities or characteristics are grouped together. This grouping can be beneficial for targeting specific instructional needs or addressing common challenges faced by a particular group of students.​
-
-Cooperative learning groups: Students are organized into small groups to work collaboratively on academic tasks or projects. This approach fosters teamwork, communication skills, and shared responsibility among students.​
-
-Interest-based groups: Students are grouped based on their individual interests or passions. This approach aims to enhance engagement and motivation by allowing students to explore topics that align with their personal interests.​
-
-The purpose of classroom groups is to create an inclusive and supportive learning environment that maximizes student learning outcomes. By tailoring instruction and promoting collaboration within these groups, educators can address the diverse needs of students and facilitate their overall academic and social development.
-
+The plugin provides customization controls for tailoring its functionality and can be configured to operate at varying levels of accuracy based on the selected service level agreement.
 
 ## About us #
 
@@ -68,7 +51,6 @@ Although this plugin is a free version, our company will store some data for the
 If you have any questions, doubts or suggestions, please do not hesitate to contact us. 
 
 ## Installing via uploaded ZIP file ##
-** This plugin does NOT depend on an additional plugin.
 
 1. Log in to your Moodle site as an admin and go to _Site administration >
    Plugins > Install plugins_.
@@ -78,9 +60,9 @@ If you have any questions, doubts or suggestions, please do not hesitate to cont
 
 ## Installing manually ##
 
-The plugin can be also installed by putting the contents of this directory to
+The plugin can also be installed by putting the contents of this directory to
 
-    {your/moodle/dirroot}/local/classroom_teams
+    {your/moodle/dirroot}/local/forum_moderation
 
 Afterwards, log in to your Moodle site as an admin and go to _Site administration >
 Notifications_ to complete the installation.
@@ -93,7 +75,7 @@ to complete the installation from the command line.
 
 ## License ##
 
-2022 JuanCa  <juancarlo.castillo20@gmail.com>
+2023 Aina Palacios, Laia Subirats, Magali Lescano, Alvaro Martin, JuanCarlo Castillo, Santi Fort
 
 This program is free software: you can redistribute it and/or modify it under
 the terms of the GNU General Public License as published by the Free Software
