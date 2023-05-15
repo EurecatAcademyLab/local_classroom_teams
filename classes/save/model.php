@@ -42,16 +42,6 @@ $input["group"] = array_map('intval', $idarrayusers);
 $input["forGroups"] = $forgroups ? false : true;
 $input['number'] = $togglevalue;
 
-if (count ($history) != 0) {
-    $input["history"] = $history;
-}
-if (count ($incompatible) != 0) {
-    $input["incompatible"] = $incompatible;
-}
-if (count ($features) != 0) {
-    $input['features'] = $features;
-    $input["homogeny"] = $homogeny;
-}
 
 $makecall = callapi('POST', 'https://d75rw7c769oxjm63lab.online/group', json_encode($input, true));
 echo htmlspecialchars($makecall, ENT_QUOTES, 'UTF-8');
