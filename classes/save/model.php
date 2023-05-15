@@ -32,12 +32,6 @@ $idarrayusers = optional_param('idarray', null, PARAM_TEXT);
 $forgroups = optional_param('forgroups', null, PARAM_INT);
 $togglevalue = optional_param('togglevalue', null, PARAM_INT);
 
-$history = optional_param('historySt', null, PARAM_TEXT);
-$features = optional_param('features', null, PARAM_TEXT);
-$incompatible = optional_param('tandemvalue', null, PARAM_TEXT);
-$homogeny = optional_param('homogenic', null, PARAM_INT);
-
-
 $input["group"] = array_map('intval', $idarrayusers);
 $input["forGroups"] = $forgroups ? false : true;
 $input['number'] = $togglevalue;
