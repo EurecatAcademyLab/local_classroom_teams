@@ -30,11 +30,13 @@
  * @param navigation_node $frontpage Node representing the front page in the navigation tree.
  */
 function local_classroom_teams_extend_navigation_frontpage(navigation_node $frontpage) {
-    if (isloggedin() && !isguestuser()) {
-        $frontpage->add(
-            get_string('pluginname', 'local_classroom_teams'),
-            new moodle_url('/local/classroom_teams/index.php'),
-        );
+    if (is_siteadmin()) {
+        if (isloggedin() && !isguestuser()) {
+            $frontpage->add(
+                get_string('pluginname', 'local_classroom_teams'),
+                new moodle_url('/local/classroom_teams/index.php'),
+            );
+        }
     }
 }
 
@@ -44,15 +46,17 @@ function local_classroom_teams_extend_navigation_frontpage(navigation_node $fron
  * @param global_navigation $root Node representing the global navigation tree.
  */
 function local_classroom_teams_extend_navigation(global_navigation $root) {
-    if (isloggedin() && !isguestuser()) {
-        $node = navigation_node::create(
-            get_string('pluginname', 'local_classroom_teams'),
-            new moodle_url('/local/classroom_teams/index.php'),
-        );
+    if (is_siteadmin()) {
+        if (isloggedin() && !isguestuser()) {
+            $node = navigation_node::create(
+                get_string('pluginname', 'local_classroom_teams'),
+                new moodle_url('/local/classroom_teams/index.php'),
+            );
 
-        $node->showinflatnavigation = true;
+            $node->showinflatnavigation = true;
 
-        $root->add_node($node);
+            $root->add_node($node);
+    }
     }
 }
 
