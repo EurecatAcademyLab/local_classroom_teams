@@ -40,8 +40,10 @@ function call_woocomerce_teams() {
 
     $data = array("apikey" => $apikey, "productid" => $productid, 'email' => $email);
     global $PAGE;
-    $PAGE->requires->js('/local/classroom_teams/amd/woocomerceteams.min.js');
+    $PAGE->requires->js('/local/classroom_teams/amd/woocomerceteams.js');
     $PAGE->requires->js_init_call('woocommerce_api_active_teams', $data);
+    call_woocomerce_status_teams();
+    call_woocomerce_status_teams();
 }
 
 /**
@@ -56,7 +58,7 @@ function call_woocomerce_status_teams() {
 
     $data = array("apikey" => $apikey, "productid" => $productid, 'email' => $email);
     global $PAGE;
-    $PAGE->requires->js('/local/classroom_teams/amd/woocomerceteams.min.js');
+    $PAGE->requires->js('/local/classroom_teams/amd/woocomerceteams.js');
     $PAGE->requires->js_init_call('woocommerce_api_status_teams', $data);
 }
 

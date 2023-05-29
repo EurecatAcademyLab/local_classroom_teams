@@ -87,14 +87,6 @@ if (isset($hassiteconfig) && $hassiteconfig) {
             ],
             new lang_string('placeholder_text', 'local_classroom_teams')
         );
-
-        $value = get_config('local_classroom_teams', 'emailteamsettings');
-        $errormessage = $emailsettingsteams->validate($value);
-        if (!$emailsettingsteams->get_setting() || !empty($errormessage)) {
-            if ($value == null || $value == '') {
-                $PAGE->navbar->add(get_string('manage', 'local_classroom_teams'));
-            }
-        }
         $settingspage->add($emailsettingsteams);
 
         // Apikey Teams.

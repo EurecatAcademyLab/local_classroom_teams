@@ -53,10 +53,18 @@ if (isguestuser()) {
     throw new moodle_exception('noguest');
 }
 
+
+$privacyteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'privacy'));
+$apikeycheckteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'apikey'));
+$emailteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'apikey'));
+
 call_woocomerce_status_teams();
 $statusteams = get_config('local_classroom_teams', 'status');
 $noactiveteams = new  noactiveteams_form();
 
+if (empty($emailteams|| strlen($emailteams) == 0 || $emailteams == '' || $emailteams == null)) {
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+}
 
 echo $OUTPUT->header();
 if (!$statusteams || $statusteams == 1 ) {
