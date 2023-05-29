@@ -38,7 +38,7 @@ $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/classroom_teams/index.php'));
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($SITE->fullname);
-$title = get_string('pluginname', 'local_classroom_teams');
+$title = get_string('pluginname', 'local_classroom_teams'). " " .get_string('pluginnameextra', 'local_classroom_teams') ;
 $PAGE->set_heading($title);
 
 $PAGE->requires->js('/local/classroom_teams/amd/creategroup.min.js');
