@@ -26,7 +26,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $page = new moodle_page();
-$page->requires->js('/local/classroom_teams/amd/woocomerceteams.min.js');
+$page->requires->js('/local/classroom_teams/amd/woocomerceteams.js');
 
 /**
  * This function get data from config settings and connect with js function.
@@ -51,12 +51,20 @@ function call_woocomerce_teams() {
  * @return Void.
  */
 function call_woocomerce_status_teams() {
-
+    global $DB;
     $apikey = get_config('local_classroom_teams', 'apikey');
     $productid = get_config('local_classroom_teams', 'productid');
     $email = get_config('local_classroom_teams', 'email');
+    $privacyteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'privacy'));
+    $plugin = 'classroom_teams';
 
-    $data = array("apikey" => $apikey, "productid" => $productid, 'email' => $email);
+    $data = array(
+        "apikey" => $apikey,
+        "productid" => $productid,
+        'email' => $email,
+        'plugin' => $plugin,
+        'privacy' => $privacyteams->value,
+    );
     global $PAGE;
     $PAGE->requires->js('/local/classroom_teams/amd/woocomerceteams.js');
     $PAGE->requires->js_init_call('woocommerce_api_status_teams', $data);

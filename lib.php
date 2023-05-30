@@ -56,7 +56,7 @@ function local_classroom_teams_extend_navigation(global_navigation $root) {
             $node->showinflatnavigation = true;
 
             $root->add_node($node);
-    }
+        }
     }
 }
 

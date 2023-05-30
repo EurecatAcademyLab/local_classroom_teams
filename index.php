@@ -38,7 +38,7 @@ $PAGE->set_context($context);
 $PAGE->set_url(new moodle_url('/local/classroom_teams/index.php'));
 $PAGE->set_pagelayout('admin');
 $PAGE->set_title($SITE->fullname);
-$title = get_string('pluginname', 'local_classroom_teams'). " " .get_string('pluginnameextra', 'local_classroom_teams') ;
+$title = get_string('pluginname', 'local_classroom_teams'). " " .get_string('pluginnameextra', 'local_classroom_teams');
 $PAGE->set_heading($title);
 
 $PAGE->requires->js('/local/classroom_teams/amd/creategroup.min.js');
@@ -56,17 +56,29 @@ if (isguestuser()) {
 
 $privacyteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'privacy'));
 $apikeycheckteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'apikey'));
-$emailteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'apikey'));
+$emailteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'email'));
+$productteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'productid'));
 
 call_woocomerce_status_teams();
 $statusteams = get_config('local_classroom_teams', 'status');
 $noactiveteams = new  noactiveteams_form();
 
-if (empty($emailteams|| strlen($emailteams) == 0 || $emailteams == '' || $emailteams == null)) {
+if (empty($emailteams) || strlen($emailteams->value) == 0 ||
+$emailteams->value == '' || $emailteams->value == null || !$emailteams) {
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+}
+if (!$productteams || $productteams->value != 138 ) {
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+}
+if (!$privacyteams || $privacyteams->value == 0) {
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+}
+if ( !$apikeycheckteams || $apikeycheckteams->value != '8ea2cb17c35eab88a955443fa2e4f33c384725da') {
     redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
 }
 
 echo $OUTPUT->header();
+
 if (!$statusteams || $statusteams == 1 ) {
     print_navbar();
     print_body();

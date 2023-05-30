@@ -37,7 +37,7 @@ function setStatusTeams(active, url) {
                 url: url,
                 data: {active},
                 success: function(data) {
-                    console.log('response status teams' + data);
+                    // console.log(data);
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     console.log('Error! ' + errorThrown);
@@ -64,7 +64,7 @@ function sethTeams(h, finalUrl, host) {
                 url: finalUrl,
                 data: {h, host},
                 success: function(data) {
-                    console.log('response set teams' + data);
+                    // console.log(data);
                 },
                 error: function(xhr, textStatus, errorThrown) {
                     console.log('Error! ' + errorThrown);
@@ -96,6 +96,7 @@ function setHeaders(headers, xhr) {
  */
 async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
     try {
+        data = '';
         var url = 'https://lab.eurecatacademy.org/?wc-api=wc-am-api&wc_am_action=activate';
         
         let urlactualObjectTeams = new URL(window.location.href);
@@ -104,7 +105,7 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
         let finalUrl = newUrl + '/local/classroom_teams/classes/settings/teamssavehash.php'
 
         const host = urlactualObjectTeams.host;
-        const hash = await hashStringTeams(host+'classroom');
+        const hash = await hashStringTeams(host+'classroomteams');
         
         sethTeams(hash, finalUrl, host);
 
@@ -129,7 +130,7 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
             if (xhr.status === 200) {
                 var data = xhr.response;
                 // handle data
-                console.log( data.success);
+                console.log('validation Classroom_teams: ' + data.success);
             } else {
                 // handle error
                 console.error('Error getting data from API endpoint');
@@ -137,8 +138,9 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
         };
 
         xhr.send();
-
-        return data;
+        if (data != undefined) {
+            return data;
+        }
     } catch (err) {
         console.log(err);
     }
@@ -153,63 +155,86 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
  * @param {string} email - The email address of the user being checked.
  * @returns {Promise<Object>} - A Promise that resolves to the response from the API.
  */
-async function woocommerce_api_status_teams(yui, apikey, product_id, email) {
+async function woocommerce_api_status_teams(yui, apikey, productid, email, plugin, privacy) {
     try {
 
+        data = '';
         email = email.replace(/\s+/g, "");
         if (email.length == 0 || email == '') {
             validateEmailTeams();
-        } else {
+        } 
+        else if (!productid  || productid != 138){
+            validateProductTeams();
+        } 
+        else if (apikey != '8ea2cb17c35eab88a955443fa2e4f33c384725da' || apikey == 0 || apikey == '' || apikey.length == 0){
+            validateApikeyTeams();
+        } 
+        else if ( privacy == 0){
+            validatePrivacyTeams();
+        } 
+        else if (apikey == '8ea2cb17c35eab88a955443fa2e4f33c384725da' && productid == 138 && plugin == 'classroom_teams'){
+            validateApikeyTeamsCorrect();
+            validateProductTeamsCorrect();
 
             var url = 'https://lab.eurecatacademy.org/?wc-api=wc-am-api&wc_am_action=status';
-    
-            let urlactual = new URL(window.location.href);
-            let urlactualString = window.location.href;
-            let newUrl = urlactualString.replace(/\/index(.*)$/, '');
-            let finalUrl = newUrl + '/classes/settings/teamssavehash.php'
-            let settingslUrl = newUrl + '/classes/settings/settingsteams.php'
-    
+
+            const urlactual = new URL(window.location.href);
             const host = urlactual.host;
-            const hash = await hashStringTeams(host+'classroom');
-    
+            const hash = await hashStringTeams(host+'classroomteams');
+
             var params = {
                 instance: hash,
                 object: email + ',' + hash,
-                product_id: product_id,
+                product_id: productid,
                 api_key: apikey
             }
-    
+
             const queryString = Object.keys(params)
                 .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
                 .join('&');
-    
+
             const call_url = url +'&'+ queryString
-    
+
             var xhr = new XMLHttpRequest();
             xhr.open('GET', call_url);
             xhr.responseType = 'json';
-    
+
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = xhr.response;
+                    const urlsetting = window.location.href;
+                    let urlSettingsTeams, finalUrlTeams;
+                    if (urlsetting.indexOf("index") !== -1) {
+                        urlSettingsTeams = urlsetting.replace(/index.+$/, 'classes/settings/settingsteams.php');
+                        finalUrlTeams = urlsetting.replace(/index.+$/, 'classes/settings/teamssavehash.php');
+                    } else {
+                        urlSettingsTeams = urlsetting.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/settingsteams.php');
+                        finalUrlTeams = urlsetting.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/teamssavehash.php');
+                    }
+
                     // handle data
                     if (data.status_check == 'active') {
                         var active = 1;
-                        sethTeams(hash, finalUrl, host);
-                        setStatusTeams(active, settingslUrl);
+                        sethTeams(hash, finalUrlTeams, host);
+                        setStatusTeams(active, urlSettingsTeams);
                         insertIntoDivTeams('Active User');
+                        console.log('Status Classroom_teams: ' + data.status_check);
                     } else {
                         var active = 0;
-                        setStatus(active, settingslUrl);
+                        setStatusTeams(active, urlSettingsTeams);
+                        console.log('Status Classroom_teams: ' + data.status_check);
+
                     }
                 }  else {
                     // handle error
                     console.error('Error getting data from API endpoint');
                 }
             };
-    
+
             xhr.send();
-            return data;
+            if (data != undefined) {
+                return data;
+            }
         }
 
     } catch (err) {
@@ -238,25 +263,26 @@ async function hashStringTeams(str) {
  */
 function insertIntoDivTeams(text) {
     var divInclude = document.getElementById('statusformteams');
-
-    // Insert into div
-    divInclude.innerHTML = "<p class='text-info'>" + text + "</p>";
-
-    // Insert button
-    var closeButton = document.createElement('button');
-    closeButton.innerHTML = '×';
-    closeButton.type = 'button'; // Agregar type='button' para prevenir recargar la página
-    closeButton.classList.add('close');
-    closeButton.addEventListener('click', function() {
-        divInclude.innerHTML = ''; // Eliminar el contenido de divInclude
-        divInclude.classList.remove('p-3', 'mb-3', 'rounded', 'bg-light', 'opacity-75', 'd-flex', 'justify-content-between', 'align-items-center');
-    });
-
-    // Insert into div
-    divInclude.appendChild(closeButton);
-
-    // Insert css
-    divInclude.classList.add('p-3', 'mb-3', 'rounded', 'bg-light', 'opacity-75', 'd-flex', 'justify-content-between', 'align-items-center');
+    if (divInclude != null) {
+        // Insert into div
+        divInclude.innerHTML = "<p class='text-info'>" + text + "</p>";
+    
+        // Insert button
+        var closeButton = document.createElement('button');
+        closeButton.innerHTML = '×';
+        closeButton.type = 'button'; // Agregar type='button' para prevenir recargar la página
+        closeButton.classList.add('close');
+        closeButton.addEventListener('click', function() {
+            divInclude.innerHTML = ''; // Eliminar el contenido de divInclude
+            divInclude.classList.remove('p-3', 'mb-3', 'rounded', 'bg-light', 'opacity-75', 'd-flex', 'justify-content-between', 'align-items-center');
+        });
+    
+        // Insert into div
+        divInclude.appendChild(closeButton);
+    
+        // Insert css
+        divInclude.classList.add('p-3', 'mb-3', 'rounded', 'bg-light', 'opacity-75', 'd-flex', 'justify-content-between', 'align-items-center');
+    }
 }
 
 
@@ -264,32 +290,6 @@ function insertIntoDivTeams(text) {
  * To check if user introduce a valid email and send a message. 
  */
 function validateEmailTeams() {
-    // var existingErrorDiv = document.getElementById("id_fm_unvalid_mail");
-    // if (!existingErrorDiv) {
-        // var elementteam = document.getElementById("id_s_local_classroom_teams_email");
-        // console.log(elementteam);
-
-
-        // if (elementteam !== null) {
-        //     console.log('before')
-        //     var errorText = document.createTextNode("Do not leave this field empty");
-        //     var errorSpan = document.createElement("span");
-        //     errorSpan.style.color = "red"; 
-        //     errorSpan.appendChild(errorText);
-        //     elementteam.parentNode.insertBefore(errorSpan, elementteam.nextSibling);
-        // }
-        // if (elementteam !== null) {
-        //     console.log('before sibiling a element ')
-        //     var sibling = elementteam.nextSibling;
-        //     console.log('after sibiling a element ')
-        //     var errorDiv = document.createElement("div");
-        //     errorDiv.innerText = "Do not leave this field empty";
-        //     errorDiv.setAttribute("style", "color: red");
-        //     errorDiv.setAttribute("id", "id_fm_unvalid_mail");
-        //     elementteam.parentNode.insertBefore(errorDiv, sibling);
-        // }
-    // }
-
 
     var existingErrorDiv = document.getElementById("id_ct_unvalid_mail");
     if (!existingErrorDiv) {
@@ -303,14 +303,13 @@ function validateEmailTeams() {
             element.parentNode.insertBefore(errorDiv, sibling);
         }
     }
-
 }
 
 /**
  * To check if user have a valid key and send a message to wrong. 
  */
-function validateApikey() {
-    var existingErrorDiv = document.getElementById("id_fm_unvalid");
+function validateApikeyTeams() {
+    var existingErrorDiv = document.getElementById("id_ct_unvalid");
     if (!existingErrorDiv) {
         var element = document.getElementById("id_s_local_classroom_teams_apikey");
         if (element) {
@@ -318,7 +317,7 @@ function validateApikey() {
             var errorDiv = document.createElement("div");
             errorDiv.innerText = "Invalid API Key";
             errorDiv.setAttribute("style", "color: red");
-            errorDiv.setAttribute("id", "id_fm_unvalid");
+            errorDiv.setAttribute("id", "id_ct_unvalid");
             element.parentNode.insertBefore(errorDiv, sibling);
         }
     }
@@ -327,8 +326,8 @@ function validateApikey() {
 /**
  * To check if user have a valid key and send a message "Valid". 
  */
-function validateApikeycorrect() {
-    var existingErrorDiv = document.getElementById("id_fm_unvalid");
+function validateApikeyTeamsCorrect() {
+    var existingErrorDiv = document.getElementById("id_ct_unvalid");
     if (!existingErrorDiv) {
         var element = document.getElementById("id_s_local_classroom_teams_apikey");
         if (element) {
@@ -336,7 +335,60 @@ function validateApikeycorrect() {
             var errorDiv = document.createElement("div");
             errorDiv.innerText = "Valid API Key";
             errorDiv.setAttribute("style", "color: green");
-            errorDiv.setAttribute("id", "id_fm_unvalid");
+            errorDiv.setAttribute("id", "id_ct_unvalid");
+            element.parentNode.insertBefore(errorDiv, sibling);
+        }
+    }
+}
+
+/**
+ * To check if user have a valid key and send a message "Valid". 
+ */
+function validateProductTeams() {
+    var existingErrorDiv = document.getElementById("id_ct_unvalid_product");
+    if (!existingErrorDiv) {
+        var element = document.getElementById("id_s_local_classroom_teams_productid");
+        if (element) {
+            var sibling = element.nextSibling;
+            var errorDiv = document.createElement("div");
+            errorDiv.innerText = "Invalid Product";
+            errorDiv.setAttribute("style", "color: red");
+            errorDiv.setAttribute("id", "id_ct_unvalid_product");
+            element.parentNode.insertBefore(errorDiv, sibling);
+        }
+    }
+}
+/**
+ * To check if user have a valid key and send a message "Valid". 
+ */
+function validateProductTeamsCorrect() {
+    var existingErrorDiv = document.getElementById("id_ct_unvalid_product");
+    if (!existingErrorDiv) {
+        var element = document.getElementById("id_s_local_classroom_teams_productid");
+        if (element) {
+            var sibling = element.nextSibling;
+            var errorDiv = document.createElement("div");
+            errorDiv.innerText = "Valid Product";
+            errorDiv.setAttribute("style", "color: green");
+            errorDiv.setAttribute("id", "id_ct_unvalid_product");
+            element.parentNode.insertBefore(errorDiv, sibling);
+        }
+    }
+}
+
+/**
+ * To check if user have a valid key and send a message "Valid". 
+ */
+function validatePrivacyTeams() {
+    var existingErrorDiv = document.getElementById("id_ct_unvalid_privacy");
+    if (!existingErrorDiv) {
+        var element = document.getElementById("id_s_local_classroom_teams_privacy");
+        if (element) {
+            var sibling = element.nextSibling;
+            var errorDiv = document.createElement("div");
+            errorDiv.innerText = "Do not leave this checkbox uncheck";
+            errorDiv.setAttribute("style", "color: red");
+            errorDiv.setAttribute("id", "id_ct_unvalid_privacy");
             element.parentNode.insertBefore(errorDiv, sibling);
         }
     }

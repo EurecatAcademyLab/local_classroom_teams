@@ -94,7 +94,7 @@ if (isset($hassiteconfig) && $hassiteconfig) {
             'local_classroom_teams/apikey',
             new lang_string('apikey', 'local_classroom_teams'),
             new lang_string('apikey_des', 'local_classroom_teams'),
-            'd564dde308ff319571349c617a9185dec25893d1',
+            '8ea2cb17c35eab88a955443fa2e4f33c384725da',
             PARAM_TEXT,
             50,
             'maxlength="50"readonly'
@@ -108,7 +108,7 @@ if (isset($hassiteconfig) && $hassiteconfig) {
             'local_classroom_teams/productid',
             new lang_string('productid', 'local_classroom_teams'),
             new lang_string('productid_des', 'local_classroom_teams'),
-            39,
+            138,
             PARAM_INT);
 
         $settingspage->add($productidsettingteams);
