@@ -52,6 +52,7 @@ function setStatusTeams(active, url) {
  * This function sends an AJAX request to a specified URL to update the H.
  * @param {string} h - indicate.
  * @param {string} url - A string indicating the URL to send the AJAX request to.
+ * @param {string} host - A string indicating the host.
  * @returns {void}
  */
 function sethTeams(h, finalUrl, host) {
@@ -180,7 +181,7 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
 
             var params = {
                 instance: hash,
-                object: email + ',' + hash,
+                object: email + ',' + host,
                 product_id: productid,
                 api_key: apikey
             }

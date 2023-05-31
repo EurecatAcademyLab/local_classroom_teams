@@ -140,7 +140,7 @@ $string['premiumicon'] = 'Premium';
 // Settings.
 $string['email'] = 'Correu electrònic';
 $string['email_des'] = 'Ingressi el seu correu';
-$string['manage'] = 'gestionar el Moderador de fòrums';
+$string['manage'] = 'Moderador de fòrums';
 $string['showinnavigation'] = 'Mostrar en el navegador';
 $string['showinnavigation_desc'] = "Quan estigui activada, la navegació del lloc mostrarà un enllaç a l'Anàlisi de Sentiment";
 $string['apikey'] = 'APIKey';
