@@ -56,8 +56,6 @@ function setStatusTeams(active, url) {
  */
 function sethTeams(h, finalUrl, host) {
 
-    // console.log(finalUrl);                   
-
     require(['jquery'], function($) {
         $(document).ready(function () { 
             $.ajax({
@@ -96,16 +94,16 @@ function setHeaders(headers, xhr) {
  */
 async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
     try {
-        data = '';
+        var data = '';
         var url = 'https://lab.eurecatacademy.org/?wc-api=wc-am-api&wc_am_action=activate';
         
-        let urlactualObjectTeams = new URL(window.location.href);
         let urlactualString = window.location.href;
         let newUrl = urlactualString.replace(/\/admin(.*)$/, '');
         let finalUrl = newUrl + '/local/classroom_teams/classes/settings/teamssavehash.php'
-
+        
+        let urlactualObjectTeams = new URL(window.location.href);
         const host = urlactualObjectTeams.host;
-        const hash = await hashStringTeams(host+'classroomteams');
+        const hash = await hashStringTeams(host + 'classroomteams');
         
         sethTeams(hash, finalUrl, host);
 
@@ -151,28 +149,26 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
  * @async
  * @param {string} yui - A unique identifier for the implementation.
  * @param {string} apikey - The API key for the WooCommerce store.
- * @param {number} product_id - The ID of the product being checked.
+ * @param {number} productid - The ID of the product being checked.
  * @param {string} email - The email address of the user being checked.
+ * @param {string} plugin - The plugin name.
+ * @param {string} privacy - The checkbox if a user accept conditions.
  * @returns {Promise<Object>} - A Promise that resolves to the response from the API.
  */
 async function woocommerce_api_status_teams(yui, apikey, productid, email, plugin, privacy) {
     try {
 
-        data = '';
+        var data = '';
         email = email.replace(/\s+/g, "");
         if (email.length == 0 || email == '') {
             validateEmailTeams();
-        } 
-        else if (!productid  || productid != 138){
+        } else if (!productid  || productid != 138){
             validateProductTeams();
-        } 
-        else if (apikey != '8ea2cb17c35eab88a955443fa2e4f33c384725da' || apikey == 0 || apikey == '' || apikey.length == 0){
+        } else if (apikey != '8ea2cb17c35eab88a955443fa2e4f33c384725da' || apikey == 0 || apikey == '' || apikey.length == 0){
             validateApikeyTeams();
-        } 
-        else if ( privacy == 0){
+        } else if ( privacy == 0){
             validatePrivacyTeams();
-        } 
-        else if (apikey == '8ea2cb17c35eab88a955443fa2e4f33c384725da' && productid == 138 && plugin == 'classroom_teams'){
+        } else if (apikey == '8ea2cb17c35eab88a955443fa2e4f33c384725da' && productid == 138 && plugin == 'classroom_teams'){
             validateApikeyTeamsCorrect();
             validateProductTeamsCorrect();
 
@@ -202,14 +198,14 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = xhr.response;
-                    const urlsetting = window.location.href;
+                    const urlsettingTeams = window.location.href;
                     let urlSettingsTeams, finalUrlTeams;
-                    if (urlsetting.indexOf("index") !== -1) {
-                        urlSettingsTeams = urlsetting.replace(/index.+$/, 'classes/settings/settingsteams.php');
-                        finalUrlTeams = urlsetting.replace(/index.+$/, 'classes/settings/teamssavehash.php');
+                    if (urlsettingTeams.indexOf("index") !== -1) {
+                        urlSettingsTeams = urlsettingTeams.replace(/index.+$/, 'classes/settings/settingsteams.php');
+                        finalUrlTeams = urlsettingTeams.replace(/index.+$/, 'classes/settings/teamssavehash.php');
                     } else {
-                        urlSettingsTeams = urlsetting.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/settingsteams.php');
-                        finalUrlTeams = urlsetting.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/teamssavehash.php');
+                        urlSettingsTeams = urlsettingTeams.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/settingsteams.php');
+                        finalUrlTeams = urlsettingTeams.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/teamssavehash.php');
                     }
 
                     // handle data
@@ -345,7 +341,7 @@ function validateApikeyTeamsCorrect() {
  * To check if user have a valid key and send a message "Valid". 
  */
 function validateProductTeams() {
-    var existingErrorDiv = document.getElementById("id_ct_unvalid_product");
+    var existingErrorDiv = document.getElementById("id_ct_unvalid_product_teams");
     if (!existingErrorDiv) {
         var element = document.getElementById("id_s_local_classroom_teams_productid");
         if (element) {
@@ -353,7 +349,7 @@ function validateProductTeams() {
             var errorDiv = document.createElement("div");
             errorDiv.innerText = "Invalid Product";
             errorDiv.setAttribute("style", "color: red");
-            errorDiv.setAttribute("id", "id_ct_unvalid_product");
+            errorDiv.setAttribute("id", "id_ct_unvalid_product_teams");
             element.parentNode.insertBefore(errorDiv, sibling);
         }
     }
@@ -362,7 +358,7 @@ function validateProductTeams() {
  * To check if user have a valid key and send a message "Valid". 
  */
 function validateProductTeamsCorrect() {
-    var existingErrorDiv = document.getElementById("id_ct_unvalid_product");
+    var existingErrorDiv = document.getElementById("id_ct_unvalid_product_teams");
     if (!existingErrorDiv) {
         var element = document.getElementById("id_s_local_classroom_teams_productid");
         if (element) {
@@ -370,7 +366,7 @@ function validateProductTeamsCorrect() {
             var errorDiv = document.createElement("div");
             errorDiv.innerText = "Valid Product";
             errorDiv.setAttribute("style", "color: green");
-            errorDiv.setAttribute("id", "id_ct_unvalid_product");
+            errorDiv.setAttribute("id", "id_ct_unvalid_product_teams");
             element.parentNode.insertBefore(errorDiv, sibling);
         }
     }
