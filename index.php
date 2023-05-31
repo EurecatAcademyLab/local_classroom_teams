@@ -65,16 +65,16 @@ $noactiveteams = new  noactiveteams_form();
 
 if (empty($emailteams) || strlen($emailteams->value) == 0 ||
 $emailteams->value == '' || $emailteams->value == null || !$emailteams) {
-    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
 if (!$productteams || $productteams->value != 138 ) {
-    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
 if (!$privacyteams || $privacyteams->value == 0) {
-    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
 if ( !$apikeycheckteams || $apikeycheckteams->value != '8ea2cb17c35eab88a955443fa2e4f33c384725da') {
-    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
 
 echo $OUTPUT->header();
