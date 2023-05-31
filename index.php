@@ -70,7 +70,7 @@ $emailteams->value == '' || $emailteams->value == null || !$emailteams) {
 if (!$productteams || $productteams->value != 138 ) {
     redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
-if (!$privacyteams || $privacyteams->value == 0) {
+if (!$privacyteams || $privacyteams->value == false) {
     redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
 }
 if ( !$apikeycheckteams || $apikeycheckteams->value != '8ea2cb17c35eab88a955443fa2e4f33c384725da') {
