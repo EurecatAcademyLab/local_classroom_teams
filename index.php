@@ -53,33 +53,34 @@ if (isguestuser()) {
     throw new moodle_exception('noguest');
 }
 
+$noactiveteams = new  noactiveteams_form();
 
 $privacyteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'privacy'));
 $apikeycheckteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'apikey'));
 $emailteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'email'));
 $productteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'productid'));
 
-call_woocomerce_status_teams();
-$statusteams = get_config('local_classroom_teams', 'status');
-$noactiveteams = new  noactiveteams_form();
 
 if (empty($emailteams) || strlen($emailteams->value) == 0 ||
 $emailteams->value == '' || $emailteams->value == null || !$emailteams) {
-    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
 }
 if (!$productteams || $productteams->value != 138 ) {
-    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
 }
 if (!$privacyteams || $privacyteams->value == false) {
-    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
 }
 if ( !$apikeycheckteams || $apikeycheckteams->value != '8ea2cb17c35eab88a955443fa2e4f33c384725da') {
-    redirect (new moodle_url('/admin/settings.php?section=localclassroomteams'));
+    redirect (new moodle_url('/admin/settings.php?section=managelocalclassroomteams'));
 }
+
+call_woocomerce_status_teams();
+$statusteams = $DB->get_record('config_plugins', array('plugin' => 'local_classroom_teams', 'name' => 'status'));
 
 echo $OUTPUT->header();
 
-if (!$statusteams || $statusteams == 1 ) {
+if ($statusteams->value == 1 ) {
     print_navbar();
     print_body();
 } else {

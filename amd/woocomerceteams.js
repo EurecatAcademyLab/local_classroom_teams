@@ -46,6 +46,27 @@ function setStatusTeams(active, url) {
         });
     });
 }
+/**
+ * To get the product title
+ */
+function getProductTitleTeams() {
+    let name = 'Classroom Teams Basic';
+    return name;
+}
+/**
+ * To get the Key
+ */
+function getFreeKeyTeams() {
+    let name = '8ea2cb17c35eab88a955443fa2e4f33c384725da';
+    return name;
+}
+/**
+ * To get the product
+ */
+function getProductIdTeams() {
+    let name = 138;
+    return name;
+}
 
 /**
  * Documentation for the setH function.
@@ -55,12 +76,12 @@ function setStatusTeams(active, url) {
  * @param {string} host - A string indicating the host.
  * @returns {void}
  */
-function sethTeams(h, finalUrl, host) {
+function sethTeams(h, finalUrlTeams, host) {
 
     require(['jquery'], function($) {
         $(document).ready(function () { 
             $.ajax({
-                url: finalUrl,
+                url: finalUrlTeams,
                 data: {h, host},
                 success: function(data) {
                     // console.log(data);
@@ -98,19 +119,19 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
         var data = '';
         var url = 'https://lab.eurecatacademy.org/?wc-api=wc-am-api&wc_am_action=activate';
         
-        let urlactualString = window.location.href;
-        let newUrl = urlactualString.replace(/\/admin(.*)$/, '');
-        let finalUrl = newUrl + '/local/classroom_teams/classes/settings/teamssavehash.php'
+        let urlactualTeams = window.location.href;
+        let newUrl = urlactualTeams.replace(/\/admin(.*)$/, '');
+        let finalUrlTeams = newUrl + '/local/classroom_teams/classes/settings/teamssavehash.php'
         
-        let urlactualObjectTeams = new URL(window.location.href);
-        const host = urlactualObjectTeams.host;
+        const urlactualteams = new URL(window.location.href);
+        const host = urlactualteams.host;
         const hash = await hashStringTeams(host + 'classroomteams');
         
-        sethTeams(hash, finalUrl, host);
+        sethTeams(hash, finalUrlTeams, host);
 
         var params = {
             instance: hash,
-            object: email + ',' + hash,
+            object: email + ',' + host,
             product_id: product_id,
             api_key: apikey
         }
@@ -160,16 +181,16 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
     try {
 
         var data = '';
-        email = email.replace(/\s+/g, "");
+        email = email.toString().replace(/\s+/g, '');
         if (email.length == 0 || email == '') {
             validateEmailTeams();
-        } else if (!productid  || productid != 138){
-            validateProductTeams();
-        } else if (apikey != '8ea2cb17c35eab88a955443fa2e4f33c384725da' || apikey == 0 || apikey == '' || apikey.length == 0){
+        } else if (apikey != getFreeKeyTeams() || apikey == 0 || apikey == '' || apikey.length == 0){
             validateApikeyTeams();
+        } else if (!productid  || productid != getProductIdTeams()){
+            validateProductTeams();
         } else if ( privacy == 0){
             validatePrivacyTeams();
-        } else if (apikey == '8ea2cb17c35eab88a955443fa2e4f33c384725da' && productid == 138 && plugin == 'classroom_teams'){
+        } else if (apikey == getFreeKeyTeams() && productid == getProductIdTeams() && plugin == 'classroom_teams'){
             validateApikeyTeamsCorrect();
             validateProductTeamsCorrect();
 
@@ -199,28 +220,37 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
             xhr.onload = function() {
                 if (xhr.status === 200) {
                     var data = xhr.response;
-                    const urlsettingTeams = window.location.href;
-                    let urlSettingsTeams, finalUrlTeams;
-                    if (urlsettingTeams.indexOf("index") !== -1) {
-                        urlSettingsTeams = urlsettingTeams.replace(/index.+$/, 'classes/settings/settingsteams.php');
-                        finalUrlTeams = urlsettingTeams.replace(/index.+$/, 'classes/settings/teamssavehash.php');
+                    const urlTeams = window.location.href;
+                    let urlSettingsTeams;
+
+                    if (urlTeams.indexOf("index") !== -1) {
+                        urlSettingsTeams = urlTeams.replace(/index.+$/, 'classes/settings/settingsteams.php');
+                    } else if (urlTeams.indexOf("admin") !== -1) {
+                        urlSettingsTeams = urlTeams.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/settingsteams.php');
                     } else {
-                        urlSettingsTeams = urlsettingTeams.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/settingsteams.php');
-                        finalUrlTeams = urlsettingTeams.replace(/\/admin\/.*$/, '/local/classroom_teams/classes/settings/teamssavehash.php');
+                        urlSettingsTeams = urlTeams + 'classes/settings/settingsteams.php';
                     }
 
-                    // handle data
-                    if (data.status_check == 'active') {
-                        var active = 1;
-                        sethTeams(hash, finalUrlTeams, host);
-                        setStatusTeams(active, urlSettingsTeams);
-                        insertIntoDivTeams('Active User');
-                        console.log('Status Classroom_teams: ' + data.status_check);
-                    } else {
-                        var active = 0;
-                        setStatusTeams(active, urlSettingsTeams);
-                        console.log('Status Classroom_teams: ' + data.status_check);
+                    var active = 0;
 
+                    if (data.code) {
+                        setStatusTeams(active, urlSettingsTeams);
+                        console.log('Status Classroom Teams False' ) ;
+                    } else {
+                        let product_title_teams = data.data.resources[0].product_title
+                        let product_id_teams = data.data.resources[0].product_id
+                        product_id_teams = parseInt(product_id_teams)
+                        // handle data
+                        if (data.status_check == 'active' && product_title_teams == 'Classroom Teams Basic' && product_id_teams == 142)  {
+                            active = 1;
+                            setStatusTeams(active, urlSettingsTeams);
+                            console.log('Status Classroom_teams: ' + data.status_check);
+                            insertIntoDivTeams('Active User');
+                        } else {
+                            setStatusTeams(active, urlSettingsTeams);
+                            console.log('Status Classroom_teams: ' + data.status_check);
+    
+                        }
                     }
                 }  else {
                     // handle error

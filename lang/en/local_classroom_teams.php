@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $string['pluginname'] = 'Classroom Teams';
-$string['pluginnameextra'] = '(Free version / Beta)';
+$string['pluginnameextra'] = '(Lite version / Beta)';
 
 // Main tab.
 $string['select_course'] = 'Select a course:';
