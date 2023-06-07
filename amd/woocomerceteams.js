@@ -241,14 +241,14 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
                         let product_id_teams = data.data.resources[0].product_id
                         product_id_teams = parseInt(product_id_teams)
                         // handle data
-                        if (data.status_check == 'active' && product_title_teams == 'Classroom Teams Basic' && product_id_teams == 142)  {
+                        if (data.status_check == 'active' && product_title_teams == 'Classroom Teams Basic' && product_id_teams == 138)  {
                             active = 1;
                             setStatusTeams(active, urlSettingsTeams);
-                            console.log('Status Classroom_teams: ' + data.status_check);
+                            console.log('Status Classroom_teams T: ' + data.status_check);
                             insertIntoDivTeams('Active User');
                         } else {
                             setStatusTeams(active, urlSettingsTeams);
-                            console.log('Status Classroom_teams: ' + data.status_check);
+                            console.log('Status Classroom_teams F: ' + data.status_check);
     
                         }
                     }
