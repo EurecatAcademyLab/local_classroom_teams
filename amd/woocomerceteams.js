@@ -149,8 +149,12 @@ async function woocommerce_api_active_teams(yui, apikey, product_id, email) {
         xhr.onload = function() {
             if (xhr.status === 200) {
                 var data = xhr.response;
-                // handle data
-                console.log('validation Classroom_teams: ' + data.success);
+                var currentURLClassroom = window.location.href;
+
+                if (currentURLClassroom.endsWith("section=managelocalclassroomteams") ) {
+                    // handle data
+                    console.log('validation Classroom_teams: ' + data.success);
+                }
             } else {
                 // handle error
                 console.error('Error getting data from API endpoint');
@@ -232,10 +236,13 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
                     }
 
                     var active = 0;
+                    var currentURLClassroom = window.location.href;
 
                     if (data.code) {
                         setStatusTeams(active, urlSettingsTeams);
-                        console.log('Status Classroom Teams False' ) ;
+                        if (currentURLClassroom.endsWith("section=managelocalclassroomteams") || currentURLClassroom.endsWith("local/classroom_teams/index.php")) {
+                            console.log('Status Classroom Teams False' ) ;
+                        }
                     } else {
                         let product_title_teams = data.data.resources[0].product_title
                         let product_id_teams = data.data.resources[0].product_id
@@ -244,11 +251,15 @@ async function woocommerce_api_status_teams(yui, apikey, productid, email, plugi
                         if (data.status_check == 'active' && product_title_teams == 'Classroom Teams Basic' && product_id_teams == 138)  {
                             active = 1;
                             setStatusTeams(active, urlSettingsTeams);
-                            console.log('Status Classroom_teams T: ' + data.status_check);
+                            if (currentURLClassroom.endsWith("section=managelocalclassroomteams") || currentURLClassroom.endsWith("local/classroom_teams/index.php")) {
+                                console.log('Status Classroom_teams T: ' + data.status_check);
+                            }
                             insertIntoDivTeams('Active User');
                         } else {
                             setStatusTeams(active, urlSettingsTeams);
-                            console.log('Status Classroom_teams F: ' + data.status_check);
+                            if (currentURLClassroom.endsWith("section=managelocalclassroomteams") || currentURLClassroom.endsWith("local/classroom_teams/index.php")) {
+                                console.log('Status Classroom_teams F: ' + data.status_check);
+                            }
     
                         }
                     }
